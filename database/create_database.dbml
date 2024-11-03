@@ -1,0 +1,234 @@
+// Tipos Enumerados
+Enum user_type_enum {
+    patient
+    professional
+    company
+}
+
+Enum company_type_enum {
+    hospital
+    market
+    pharmacy
+    sports_store
+    gym
+}
+
+Enum profession_enum {
+    medic
+    psycologist
+    nutritionist
+    personal_trainer
+}
+
+Enum plan_type_enum {
+    nutrition
+    exercise
+    therapy
+    medication
+}
+
+Enum notification_type_enum {
+    exam_ready
+    order_status
+}
+
+Enum status_enum {
+    scheduled
+    completed
+    canceled
+    pending
+    paid
+    shipped
+    delivered
+}
+
+Enum payment_method_enum {
+    credit_card
+    pix
+}
+
+Enum category_enum {
+    medication
+    food
+    exam
+    sports_item
+    membership
+}
+
+// Tabelas
+
+Table users {
+    user_id UUID [pk, default: "gen_random_uuid()"]
+    email varchar(255) [unique, not null]
+    password_hash varchar(255) [not null]
+    name varchar(255) [not null]
+    user_type user_type_enum [not null]
+    created_at timestamp [default: "CURRENT_TIMESTAMP"]
+    updated_at timestamp [default: "CURRENT_TIMESTAMP"]
+}
+
+Table addresses {
+    address_id UUID [pk, default: "gen_random_uuid()"]
+    street varchar(255) [not null]
+    house_number varchar(50) [not null]
+    complement varchar(100)
+    neighborhood varchar(100) [not null]
+    city varchar(100) [not null]
+    state varchar(100) [not null]
+    zip_code varchar(20) [not null]
+    country varchar(100) [not null]
+    latitude decimal(9,6) [not null]
+    longitude decimal(9,6) [not null]
+}
+
+Table companies {
+    company_id UUID [pk, ref: > users.user_id]
+    cnpj varchar(20) [unique, not null]
+    company_type company_type_enum [not null]
+    api_key varchar(255) [unique]
+    is_active boolean [default: true]
+    products_endpoint varchar(255)
+    orders_endpoint varchar(255)
+    address_id UUID [ref: > addresses.address_id]
+}
+
+Table products {
+    product_id UUID [pk, default: "gen_random_uuid()"]
+    name varchar(255) [not null]
+    description text
+    category category_enum [not null]
+    created_at timestamp [default: "CURRENT_TIMESTAMP"]
+}
+
+Table patients {
+    patient_id UUID [pk, ref: > users.user_id]
+    birthday date [not null]
+    weight decimal(5,2)
+    height decimal(5,2)
+    gender varchar(20)
+    food_restrictions text
+    address_id UUID [ref: > addresses.address_id]
+}
+
+Table professionals {
+    professional_id UUID [pk, ref: > users.user_id]
+    profession profession_enum [not null]
+    credentials varchar(255) [not null]
+    price decimal(10,2) [not null]
+    is_verified boolean [default: false]
+    bio text
+    specialties text[]
+}
+
+Table availabilities {
+    availability_id UUID [pk, default: "gen_random_uuid()"]
+    professional_id UUID [ref: > professionals.professional_id]
+    weekday smallint [note: '1=Domingo, 7=Sábado']
+    start_time time [not null]
+    end_time time [not null]
+    is_active boolean [default: true]
+}
+
+Table slots {
+    slot_id UUID [pk, default: "gen_random_uuid()"]
+    professional_id UUID [ref: > professionals.professional_id]
+    slot_datetime timestamp [not null]
+    is_reserved boolean [default: false]
+    is_blocked boolean [default: false]
+    created_at timestamp [default: "CURRENT_TIMESTAMP"]
+}
+
+Table appointments {
+    appointment_id UUID [pk, default: "gen_random_uuid()"]
+    slot_id UUID [ref: > slots.slot_id]
+    patient_id UUID [ref: > patients.patient_id]
+    status status_enum [not null]
+    created_at timestamp [default: "CURRENT_TIMESTAMP"]
+    updated_at timestamp [default: "CURRENT_TIMESTAMP"]
+}
+
+Table assessments {
+    assessment_id UUID [pk, default: "gen_random_uuid()"]
+    appointment_id UUID [ref: > appointments.appointment_id]
+    patient_id UUID [ref: > patients.patient_id]
+    professional_id UUID [ref: > professionals.professional_id]
+    is_simplified boolean [default: false]
+    content text [not null]
+    created_at timestamp [default: "CURRENT_TIMESTAMP"]
+}
+
+Table plans {
+    plan_id UUID [pk, default: "gen_random_uuid()"]
+    patient_id UUID [ref: > patients.patient_id]
+    professional_id UUID [ref: > professionals.professional_id]
+    plan_type plan_type_enum [not null]
+    description text
+    created_at timestamp [default: "CURRENT_TIMESTAMP"]
+}
+
+Table plan_items {
+    plan_item_id UUID [pk, default: "gen_random_uuid()"]
+    plan_id UUID [ref: > plans.plan_id]
+    product_id UUID [ref: > products.product_id]
+    quantity integer [not null]
+    instructions text
+}
+
+Table order_options {
+    order_option_id UUID [pk, default: "gen_random_uuid()"]
+    plan_id UUID [ref: > plans.plan_id]
+    company_id UUID [ref: > companies.company_id]
+    total_price decimal(10,2) [not null]
+    created_at timestamp [default: "CURRENT_TIMESTAMP"]
+}
+
+Table item_options {
+    item_option_id UUID [pk, default: "gen_random_uuid()"]
+    order_option_id UUID [ref: > order_options.order_option_id]
+    plan_item_id UUID [ref: > plan_items.plan_item_id]
+    company_id UUID [ref: > companies.company_id]
+    supplier_product_id varchar(255)
+    price decimal(10,2) [not null]
+    quantity integer [not null]
+}
+
+Table orders {
+    order_id UUID [pk, default: "gen_random_uuid()"]
+    patient_id UUID [ref: > patients.patient_id]
+    order_option_id UUID [ref: > order_options.order_option_id]
+    total_amount decimal(10,2) [not null]
+    order_date timestamp [default: "CURRENT_TIMESTAMP"]
+    order_status status_enum [not null]
+    payment_method payment_method_enum
+    transaction_id varchar(255)
+    shipping_address_id UUID [ref: > addresses.address_id]
+}
+
+Table order_items {
+    order_item_id UUID [pk, default: "gen_random_uuid()"]
+    order_id UUID [ref: > orders.order_id]
+    product_id UUID [ref: > products.product_id]
+    supplier_product_id varchar(255)
+    quantity integer [not null]
+    price decimal(10,2) [not null]
+}
+
+Table notifications {
+    notification_id UUID [pk, default: "gen_random_uuid()"]
+    user_id UUID [ref: > users.user_id]
+    notification_type notification_type_enum [not null]
+    content text [not null]
+    is_read boolean [default: false]
+    created_at timestamp [default: "CURRENT_TIMESTAMP"]
+}
+
+Table documents {
+    document_id UUID [pk, default: "gen_random_uuid()"]
+    patient_id UUID [ref: > patients.patient_id]
+    professional_id UUID [ref: > professionals.professional_id]
+    appointment_id UUID [ref: > appointments.appointment_id]
+    document_type varchar(50) [not null]
+    document_name varchar(255) [not null]
+    uploaded_at timestamp [default: "CURRENT_TIMESTAMP"]
+    s3_object_key varchar(255) [not null]
+}
