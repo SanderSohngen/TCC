@@ -3,19 +3,12 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 -- Tipos Enumerados
 CREATE TYPE user_type_enum AS ENUM ('patient', 'professional', 'company');
-
 CREATE TYPE company_type_enum AS ENUM ('hospital', 'market', 'pharmacy', 'sports_store', 'gym');
-
 CREATE TYPE profession_enum AS ENUM ('medic', 'psycologist', 'nutritionist', 'personal_trainer');
-
 CREATE TYPE plan_type_enum AS ENUM ('nutrition', 'exercise', 'therapy', 'medication');
-
 CREATE TYPE notification_type_enum AS ENUM ('exam_ready', 'order_status');
-
 CREATE TYPE status_enum AS ENUM ('scheduled', 'completed', 'canceled', 'pending', 'paid', 'shipped', 'delivered');
-
 CREATE TYPE payment_method_enum AS ENUM ('credit_card', 'pix');
-
 CREATE TYPE category_enum AS ENUM ('medication', 'food', 'exam', 'sports_item', 'membership');
 
 -- Tabela users
@@ -46,39 +39,39 @@ CREATE TABLE addresses (
 
 -- Tabela companies
 CREATE TABLE companies (
-    company_id UUID PRIMARY KEY REFERENCES users(user_id),
+    company_id UUID PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE,
     cnpj VARCHAR(20) UNIQUE NOT NULL,
     company_type company_type_enum NOT NULL,
-    api_key VARCHAR(255) UNIQUE,
-    is_active BOOLEAN DEFAULT TRUE,
-    products_endpoint VARCHAR(255),
-    orders_endpoint VARCHAR(255),
-    address_id UUID REFERENCES addresses(address_id)
+    api_key VARCHAR(255) UNIQUE NOT NULL,
+    is_verified BOOLEAN DEFAULT FALSE,
+    products_endpoint VARCHAR(255) NOT NULL,
+    orders_endpoint VARCHAR(255) NOT NULL,
+    address_id UUID REFERENCES addresses(address_id) ON DELETE CASCADE
 );
 
 -- Tabela products
 CREATE TABLE products (
     product_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(255) NOT NULL,
-    description TEXT,
+    description TEXT NOT NULL,
     category category_enum NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Tabela patients
 CREATE TABLE patients (
-    patient_id UUID PRIMARY KEY REFERENCES users(user_id),
+    patient_id UUID PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE,
     birthday DATE NOT NULL,
-    weight DECIMAL(5,2),
-    height DECIMAL(5,2),
-    gender VARCHAR(20),
+    weight DECIMAL(5,2) NOT NULL,
+    height DECIMAL(5,2) NOT NULL,
+    gender VARCHAR(20) NOT NULL,
     food_restrictions TEXT,
-    address_id UUID REFERENCES addresses(address_id)
+    address_id UUID REFERENCES addresses(address_id) ON DELETE CASCADE
 );
 
 -- Tabela professionals
 CREATE TABLE professionals (
-    professional_id UUID PRIMARY KEY REFERENCES users(user_id),
+    professional_id UUID PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE,
     profession profession_enum NOT NULL,
     credentials VARCHAR(255) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
@@ -90,7 +83,7 @@ CREATE TABLE professionals (
 -- Tabela availabilities
 CREATE TABLE availabilities (
     availability_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    professional_id UUID REFERENCES professionals(professional_id),
+    professional_id UUID REFERENCES professionals(professional_id) ON DELETE CASCADE,
     weekday SMALLINT NOT NULL CHECK (weekday BETWEEN 1 AND 7),
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
@@ -100,7 +93,7 @@ CREATE TABLE availabilities (
 -- Tabela slots
 CREATE TABLE slots (
     slot_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    professional_id UUID REFERENCES professionals(professional_id),
+    professional_id UUID REFERENCES professionals(professional_id) ON DELETE CASCADE,
     slot_datetime TIMESTAMP WITH TIME ZONE NOT NULL,
     is_reserved BOOLEAN DEFAULT FALSE,
     is_blocked BOOLEAN DEFAULT FALSE,
@@ -110,8 +103,8 @@ CREATE TABLE slots (
 -- Tabela appointments
 CREATE TABLE appointments (
     appointment_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    slot_id UUID REFERENCES slots(slot_id),
-    patient_id UUID REFERENCES patients(patient_id),
+    slot_id UUID REFERENCES slots(slot_id) ON DELETE CASCADE,
+    patient_id UUID REFERENCES patients(patient_id) ON DELETE CASCADE,
     status status_enum NOT NULL CHECK (status IN ('scheduled', 'completed', 'canceled')),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
@@ -120,9 +113,9 @@ CREATE TABLE appointments (
 -- Tabela assessments
 CREATE TABLE assessments (
     assessment_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    appointment_id UUID REFERENCES appointments(appointment_id),
-    patient_id UUID REFERENCES patients(patient_id),
-    professional_id UUID REFERENCES professionals(professional_id),
+    appointment_id UUID REFERENCES appointments(appointment_id) ON DELETE CASCADE,
+    patient_id UUID REFERENCES patients(patient_id) ON DELETE CASCADE,
+    professional_id UUID REFERENCES professionals(professional_id) ON DELETE CASCADE,
     is_simplified BOOLEAN DEFAULT FALSE,
     content TEXT NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
@@ -131,18 +124,18 @@ CREATE TABLE assessments (
 -- Tabela plans
 CREATE TABLE plans (
     plan_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    patient_id UUID REFERENCES patients(patient_id),
-    professional_id UUID REFERENCES professionals(professional_id),
+    patient_id UUID REFERENCES patients(patient_id) ON DELETE CASCADE,
+    professional_id UUID REFERENCES professionals(professional_id) ON DELETE CASCADE,
     plan_type plan_type_enum NOT NULL,
-    description TEXT,
+    description TEXT NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Tabela plan_items
 CREATE TABLE plan_items (
     plan_item_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    plan_id UUID REFERENCES plans(plan_id),
-    product_id UUID REFERENCES products(product_id),
+    plan_id UUID REFERENCES plans(plan_id) ON DELETE CASCADE,
+    product_id UUID REFERENCES products(product_id) ON DELETE CASCADE,
     quantity INTEGER NOT NULL,
     instructions TEXT
 );
@@ -150,8 +143,8 @@ CREATE TABLE plan_items (
 -- Tabela order_options
 CREATE TABLE order_options (
     order_option_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    plan_id UUID REFERENCES plans(plan_id),
-    company_id UUID REFERENCES companies(company_id),
+    plan_id UUID REFERENCES plans(plan_id) ON DELETE CASCADE,
+    company_id UUID REFERENCES companies(company_id) ON DELETE CASCADE,
     total_price DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
@@ -159,9 +152,9 @@ CREATE TABLE order_options (
 -- Tabela item_options
 CREATE TABLE item_options (
     item_option_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    order_option_id UUID REFERENCES order_options(order_option_id),
-    plan_item_id UUID REFERENCES plan_items(plan_item_id),
-    company_id UUID REFERENCES companies(company_id),
+    order_option_id UUID REFERENCES order_options(order_option_id) ON DELETE CASCADE,
+    plan_item_id UUID REFERENCES plan_items(plan_item_id) ON DELETE CASCADE,
+    company_id UUID REFERENCES companies(company_id) ON DELETE CASCADE,
     supplier_product_id VARCHAR(255),
     price DECIMAL(10,2) NOT NULL,
     quantity INTEGER NOT NULL
@@ -170,21 +163,21 @@ CREATE TABLE item_options (
 -- Tabela orders
 CREATE TABLE orders (
     order_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    patient_id UUID REFERENCES patients(patient_id),
-    order_option_id UUID REFERENCES order_options(order_option_id),
+    patient_id UUID REFERENCES patients(patient_id) ON DELETE CASCADE,
+    order_option_id UUID REFERENCES order_options(order_option_id) ON DELETE CASCADE,
     total_amount DECIMAL(10,2) NOT NULL,
     order_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     order_status status_enum NOT NULL CHECK (order_status IN ('pending', 'paid', 'completed', 'canceled', 'shipped', 'delivered')),
     payment_method payment_method_enum,
     transaction_id VARCHAR(255),
-    shipping_address_id UUID REFERENCES addresses(address_id)
+    shipping_address_id UUID REFERENCES addresses(address_id) ON DELETE CASCADE
 );
 
 -- Tabela order_items
 CREATE TABLE order_items (
     order_item_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    order_id UUID REFERENCES orders(order_id),
-    product_id UUID REFERENCES products(product_id),
+    order_id UUID REFERENCES orders(order_id) ON DELETE CASCADE,
+    product_id UUID REFERENCES products(product_id) ON DELETE CASCADE,
     supplier_product_id VARCHAR(255),
     quantity INTEGER NOT NULL,
     price DECIMAL(10,2) NOT NULL
@@ -193,7 +186,7 @@ CREATE TABLE order_items (
 -- Tabela notifications
 CREATE TABLE notifications (
     notification_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID REFERENCES users(user_id),
+    user_id UUID REFERENCES users(user_id) ON DELETE CASCADE,
     notification_type notification_type_enum NOT NULL,
     content TEXT NOT NULL,
     is_read BOOLEAN DEFAULT FALSE,
@@ -203,9 +196,9 @@ CREATE TABLE notifications (
 -- Tabela documents
 CREATE TABLE documents (
     document_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    patient_id UUID REFERENCES patients(patient_id),
-    professional_id UUID REFERENCES professionals(professional_id),
-    appointment_id UUID REFERENCES appointments(appointment_id),
+    patient_id UUID REFERENCES patients(patient_id) ON DELETE CASCADE,
+    professional_id UUID REFERENCES professionals(professional_id) ON DELETE CASCADE,
+    appointment_id UUID REFERENCES appointments(appointment_id) ON DELETE CASCADE,
     document_type VARCHAR(50) NOT NULL,
     document_name VARCHAR(255) NOT NULL,
     uploaded_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
