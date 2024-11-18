@@ -3,11 +3,11 @@ import { extendTheme } from '@chakra-ui/react';
 const theme = extendTheme({
   colors: {
     customPalette: {
-      900: '#22577A',
-      800: '#38A3A5',
-      700: '#57CC99',
-      600: '#80ED99',
-      500: '#C7F9CC',
+      1000: '#06090e',
+      900: '#22577a',
+      800: '#c8ae92',
+      700: '#61000d',
+      600: '#eeedc4',
     },
   },
   fonts: {

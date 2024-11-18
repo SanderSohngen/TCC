@@ -1,27 +1,27 @@
-import { Flex, Text, VStack, Button } from '@chakra-ui/react';
-import AuthTabs from '../components/AuthTabs/AuthTabs';
+import { Flex, VStack, Button } from '@chakra-ui/react';
 import { useAuth } from '../context/AuthContext';
+import HomeAccordion from '../components/HomeAccordion/HomeAccordion';
+import AuthPanel from '../components/AuthPanel/AuthPanel';
 
-function Home() {
-    const { isLoggedIn, logout } = useAuth();
-    return (
-        <Flex align="center" alignItems="center" justifyContent="center">
-        <VStack spacing={4} mb={4} mt={4}>
-            {
-                isLoggedIn? (
-                    <>
-                        <Text fontSize="4xl" mb={4} fontWeight="bold" color='gray'>Bem Vindo</Text>
-                        <Button colorScheme="red" onClick={logout}>Logout</Button>
-                    </>
-                ) : (
-                    <>
-                        <AuthTabs />
-                    </>
-                )
-            }
-        </VStack>
-        </Flex>
-    );
+const Home = () => {
+  const { isLoggedIn, logout } = useAuth();
+
+  return (
+    <Flex align="center" justify="center" padding="4" flexGrow={1}>
+      <VStack spacing={6} width="100%" maxWidth="800px">
+        {isLoggedIn ? (
+          <>
+            <HomeAccordion />
+            <Button colorScheme="red" onClick={logout}>
+              Logout
+            </Button>
+          </>
+        ) : (
+          <AuthPanel />
+        )}
+      </VStack>
+    </Flex>
+  );
 };
 
 export default Home;

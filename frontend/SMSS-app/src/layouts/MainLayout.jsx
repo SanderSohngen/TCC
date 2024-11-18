@@ -11,18 +11,21 @@ function MainLayout() {
     const navigation = useNavigation();
     const { user, isLoggedIn } = useAuth()
     const toast = useToast();
-    const [hasWelcomed, setHasWelcomed] = useState(false);
+    const [hasWelcomed, setHasWelcomed] = useState(
+        localStorage.getItem('hasWelcomed') === 'true'
+    );
 
     useEffect(() => {
         if (isLoggedIn && !hasWelcomed) {
             toast({
                 title: 'Bem vindo de volta',
-                description: `Olá novamente, ${user.name}.`,
+                description: `Olá novamente, ${user.name.split(' ')[0]}.`,
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
             })
             setHasWelcomed(true);
+            localStorage.setItem('hasWelcomed', 'true');
         }
         else if (!isLoggedIn && hasWelcomed) {
             toast({
@@ -33,6 +36,7 @@ function MainLayout() {
                 isClosable: true,
             })
             setHasWelcomed(false);
+            localStorage.removeItem('hasWelcomed');
         }
     }, [isLoggedIn, hasWelcomed])
 
