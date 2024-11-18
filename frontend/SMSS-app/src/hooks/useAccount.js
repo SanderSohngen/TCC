@@ -23,3 +23,9 @@ export const useLogin = () => {
     },
   });
 };
+
+export const useAccount = () => {
+  return useMutation({
+    mutationFn: accountService.fetchTypedUserData,
+  });
+};
