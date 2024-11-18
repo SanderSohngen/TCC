@@ -203,7 +203,6 @@ def create_address(cursor, address_data):
     address_components = [street, house_number, complement, neighborhood, city, state]
     address_query = ', '.join(filter(None, address_components))
     
-
     place_index_name = os.environ.get('PlaceIndex')
     if not place_index_name:
         return {
@@ -232,7 +231,7 @@ def create_address(cursor, address_data):
             'street': place.get('Street', street),
             'house_number': place.get('AddressNumber', house_number),
             'complement': complement,
-            'neighborhood': place.get('Neighborhood', place.get('SubMunicipality')),
+            'neighborhood': place.get('Neighborhood', place.get('SubMunicipality', neighborhood)),
             'city': place.get('Municipality'),
             'state': place.get('Region'),
             'country': place.get('Country'),
