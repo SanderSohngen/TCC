@@ -143,8 +143,8 @@ export const login = async (credentials) => {
 		}
 };
   
-export const fetchTypedUserData = async ({ user_type, idToken }) => {
-  const url = API_BASE_URL + `/${user_type}` + API_ME
+export const fetchTypedUserData = async (userType, idToken) => {
+  const url = API_BASE_URL + `/${userType}` + API_ME
 
   try {
     const response = await axios.get(url, {

@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import * as accountService from '../services/accountService';
 import { useAuth } from '../context/AuthContext';
 
@@ -24,8 +24,10 @@ export const useLogin = () => {
   });
 };
 
-export const useAccount = () => {
-  return useMutation({
-    mutationFn: accountService.fetchTypedUserData,
-  });
+export const useFetchTypedUserData = (userType, idToken) => {
+  return useQuery({
+    queryKey: ['fetchTypedUserData', userType, idToken],
+    queryFn: () => accountService.fetchTypedUserData(userType, idToken),
+    enabled: !!userType && !!idToken,
+  })
 };

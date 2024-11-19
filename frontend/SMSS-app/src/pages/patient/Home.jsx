@@ -1,24 +1,18 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
-import { useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { useAccount } from '../../hooks/useAccount';
+import { useFetchTypedUserData } from '../../hooks/useAccount';
 import Loading from '../../components/Loading/Loading';
 
 export default function Home() {
   const { user, tokens } = useAuth();
-  const account = useAccount();
+  const fetchTypedUserData = useFetchTypedUserData(
+    user?.user_type,
+    tokens?.idToken
+  );
 
-  useEffect(() => {
-    if (user)
-      account.mutateAsync({
-        user_type: user.user_type,
-        idToken: tokens.idToken,
-      });
-  }, [user, tokens.idToken]);
+  if (fetchTypedUserData.isPending || !fetchTypedUserData.data) return <Loading />;
 
-  if (account.isPending || !account.data) return <Loading />;
-
-  const data = account.data;
+  const data = fetchTypedUserData.data;
 
   const {
     name,
