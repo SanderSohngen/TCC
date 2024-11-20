@@ -87,17 +87,16 @@ CREATE TABLE availabilities (
     weekday SMALLINT NOT NULL CHECK (weekday BETWEEN 1 AND 7),
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE
+    is_active BOOLEAN DEFAULT FALSE
 );
 
 -- Tabela slots
 CREATE TABLE slots (
     slot_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    professional_id UUID REFERENCES professionals(professional_id) ON DELETE CASCADE,
+    availability_id UUID REFERENCES availabilities(availability_id) ON DELETE CASCADE,
     slot_datetime TIMESTAMP WITH TIME ZONE NOT NULL,
     is_reserved BOOLEAN DEFAULT FALSE,
-    is_blocked BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    is_blocked BOOLEAN DEFAULT FALSE
 );
 
 -- Tabela appointments

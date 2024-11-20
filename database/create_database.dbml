@@ -126,16 +126,15 @@ Table availabilities {
     weekday smallint [note: '1=Domingo, 7=Sábado']
     start_time time [not null]
     end_time time [not null]
-    is_active boolean [default: true]
+    is_active boolean [default: false]
 }
 
 Table slots {
     slot_id UUID [pk, default: "gen_random_uuid()"]
-    professional_id UUID [ref: > professionals.professional_id]
+    availability_id UUID [ref: > availabilities.availability_id]
     slot_datetime timestamp [not null]
     is_reserved boolean [default: false]
     is_blocked boolean [default: false]
-    created_at timestamp [default: "CURRENT_TIMESTAMP"]
 }
 
 Table appointments {
