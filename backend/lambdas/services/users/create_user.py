@@ -5,6 +5,7 @@ import boto3
 import bcrypt
 import psycopg2
 from botocore.exceptions import ClientError
+import boto3
 
 
 def lambda_handler(event, context):
@@ -142,6 +143,8 @@ def create_professional(cursor, body, user_id, _):
     """
     cursor.execute(insert_professional_query, (user_id, profession, credentials, price, bio, specialties))
 
+    create_availabilities(user_id)
+
     return {
         'statusCode': 201,
         'headers': {'Content-Type': 'application/json; charset=utf-8'},
@@ -276,3 +279,18 @@ def create_address(cursor, address_data):
             'headers': {'Content-Type': 'application/json; charset=utf-8'},
             'body': json.dumps({'error': f'Erro no banco de dados: {str(e)}'})
         }
+
+def create_availabilities(user_id):
+    sqs_client, sqs_url = sqs_connection()
+    message = {
+        'user_id': user_id
+    }
+    sqs_client.send_message(
+        QueueUrl=sqs_url,
+        MessageBody=json.dumps(message)
+    )
+
+def sqs_connection():
+    sqs_client = boto3.client('sqs')
+    sqs_url = os.environ['SQS_URL']
+    return sqs_client, sqs_url
