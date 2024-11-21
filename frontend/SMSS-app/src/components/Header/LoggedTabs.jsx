@@ -118,6 +118,7 @@ const LoggedTabs = () => {
                   _hover={{ bg: 'customPalette.800' }}
                   _active={{ color: 'customPalette.1000' }}
                   color="white"
+                  onClick={() => setMenuOpen(false)}
                 >
                   {subItem.label}
                 </MenuItem>
@@ -138,6 +139,7 @@ const LoggedTabs = () => {
             _hover={{ bg: 'customPalette.800' }}
             _active={{ color: 'customPalette.1000' }}
             isActive={location.pathname.startsWith(item.path)}
+            onClick={() => setMenuOpen(false)}
           >
             {item.label}
           </Button>
