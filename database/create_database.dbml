@@ -135,6 +135,10 @@ Table slots {
     slot_datetime timestamp [not null]
     is_reserved boolean [default: false]
     is_blocked boolean [default: false]
+
+    indexes {
+        unique_availability_slot_datetime [unique, columns: [availability_id, slot_datetime]]
+    }
 }
 
 Table appointments {

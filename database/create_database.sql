@@ -96,7 +96,8 @@ CREATE TABLE slots (
     availability_id UUID REFERENCES availabilities(availability_id) ON DELETE CASCADE,
     slot_datetime TIMESTAMP WITH TIME ZONE NOT NULL,
     is_reserved BOOLEAN DEFAULT FALSE,
-    is_blocked BOOLEAN DEFAULT FALSE
+    is_blocked BOOLEAN DEFAULT FALSE,
+    UNIQUE (availability_id, slot_datetime)
 );
 
 -- Tabela appointments
