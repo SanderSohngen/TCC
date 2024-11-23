@@ -7,7 +7,7 @@ const ScheduleRoutes = () => (
   <Routes>
     <Route index element={<Schedule />} />
     <Route path="configurar" element={<ConfigureAvailability />} />
-    <Route path="atendimentos/:appointmentId" element={<AppointmentDetails />} />
+    <Route path=":appointmentId" element={<AppointmentDetails />} />
   </Routes>
 );
 
