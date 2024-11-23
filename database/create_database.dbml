@@ -123,7 +123,7 @@ Table professionals {
 Table availabilities {
     availability_id UUID [pk, default: "gen_random_uuid()"]
     professional_id UUID [ref: > professionals.professional_id]
-    weekday smallint [note: '1=Domingo, 7=Sábado']
+    weekday smallint [note: '1=Segunda, 7=Domingo']
     start_time time [not null]
     end_time time [not null]
     is_active boolean [default: false]
