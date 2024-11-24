@@ -22,8 +22,10 @@ export default function Schedule() {
     return 'Consulta com Paciente';
   };
 
-  const getColor = () => {
-    return 'customPalette.900';
+  const getColor = (appointment) => {
+    const status = appointment.status;
+    if (status === 'scheduled') return 'teal';
+    if (status === 'completed') return 'gray';
   };
 
   const handleEventClick = (info) => {

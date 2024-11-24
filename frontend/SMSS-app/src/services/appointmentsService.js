@@ -68,3 +68,21 @@ export const updateAppointment = async ({ appointmentId, appointmentData, idToke
     throw error;
   }
 }
+
+export const submitMeeting = async ({ appointmentId, idToken }) => {
+  try {
+    const response = await axios.post(
+      `${appointmentsURL}/create-meeting/${appointmentId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao criar reunião:', error);
+    throw error;
+  }
+};

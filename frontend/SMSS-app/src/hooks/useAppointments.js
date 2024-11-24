@@ -28,3 +28,9 @@ export const useUpdateAppointment = () => {
     mutationFn: appointmentsService.updateAppointment,
   });
 }
+
+export const useSubmitMeeting = () => {
+  return useMutation({
+    mutationFn: appointmentsService.submitMeeting,
+  });
+};

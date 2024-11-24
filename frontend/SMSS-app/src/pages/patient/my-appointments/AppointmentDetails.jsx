@@ -4,6 +4,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { useFetchAppointmentDetails } from '../../../hooks/useAppointments';
 import Loading from '../../../components/Loading/Loading';
 import AppointmentDetailsComponent from '../../../components/AppointmentDetailsComponent/AppointmentDetailsComponent';
+import SubmitMeetingButton from '../../../components/SubmitMeetingButton/SubmitMeetingButton';
 
 const AppointmentDetails = () => {
   const { appointmentId } = useParams();
@@ -19,7 +20,7 @@ const AppointmentDetails = () => {
   const handleReschedule = () => {
     navigate(`${location.pathname}/remarcar`, { state: { appointmentDetails } });
   };
-  
+
   const handleCancel = () => {
     navigate(`${location.pathname}/cancelar`, { state: { appointmentDetails } });
   };
@@ -44,6 +45,11 @@ const AppointmentDetails = () => {
         <Button colorScheme="teal" onClick={handleReschedule}>
           Remarcar
         </Button>
+        <SubmitMeetingButton
+          appointmentId={appointmentId}
+          tokens={tokens}
+          userType="paciente"
+        />
         <Button colorScheme="red" onClick={handleCancel}>
           Cancelar
         </Button>
