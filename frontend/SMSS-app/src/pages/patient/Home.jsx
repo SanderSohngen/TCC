@@ -4,9 +4,8 @@ import { useFetchTypedUserData } from '../../hooks/useAccount';
 import Loading from '../../components/Loading/Loading';
 
 export default function Home() {
-  const { user, tokens } = useAuth();
+  const { tokens } = useAuth();
   const fetchTypedUserData = useFetchTypedUserData(
-    user?.user_type,
     tokens?.idToken
   );
 

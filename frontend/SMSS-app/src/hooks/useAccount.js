@@ -24,10 +24,10 @@ export const useLogin = () => {
   });
 };
 
-export const useFetchTypedUserData = (userType, idToken) => {
+export const useFetchTypedUserData = (idToken) => {
   return useQuery({
-    queryKey: ['fetchTypedUserData', userType, idToken],
-    queryFn: () => accountService.fetchTypedUserData(userType, idToken),
-    enabled: !!userType && !!idToken,
+    queryKey: ['fetchTypedUserData', idToken],
+    queryFn: () => accountService.fetchTypedUserData(idToken),
+    enabled: !!idToken,
   })
 };

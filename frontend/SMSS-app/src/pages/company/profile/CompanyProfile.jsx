@@ -5,9 +5,8 @@ import Loading from '../../../components/Loading/Loading';
 
 
 export default function CompanyProfile() {
-  const { user, tokens } = useAuth();
+  const { tokens } = useAuth();
   const fetchTypedUserData = useFetchTypedUserData(
-    user?.user_type,
     tokens?.idToken
   );
   

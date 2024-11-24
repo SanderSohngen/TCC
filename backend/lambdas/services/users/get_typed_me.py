@@ -14,13 +14,6 @@ def lambda_handler(event, context):
             "body": json.dumps({"error": "Invalid JWT claims"})
         }
 
-    path_user_type = event["pathParameters"].get("user_type")
-    if path_user_type != user_type:
-        return {
-            "statusCode": 403,
-            "body": json.dumps({"error": "Forbidden: User type mismatch"})
-        }
-
     conn, cursor = connect_db()
 
     try:
