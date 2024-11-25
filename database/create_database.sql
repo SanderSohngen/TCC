@@ -118,7 +118,8 @@ CREATE TABLE assessments (
     professional_id UUID REFERENCES professionals(professional_id) ON DELETE CASCADE,
     is_simplified BOOLEAN DEFAULT FALSE,
     content TEXT NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (appointment_id, patient_id, is_simplified)
 );
 
 -- Tabela plans

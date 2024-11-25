@@ -58,14 +58,8 @@ const LoggedTabs = () => {
           { label: 'Listar Planos', path: '/profissional/planos-de-tratamento' },
         ],
       },
-      {
-        label: 'Avaliações',
-        submenu: [
-          { label: 'Criar Avaliação', path: '/profissional/avaliacoes/novo' },
-          { label: 'Listar Avaliações', path: '/profissional/avaliacoes' },
-        ],
-      },
-      { label: 'Pacientes Atendidos', path: '/profissional/pacientes-atendidos' },
+      { label: 'Avaliações', path: '/profissional/avaliacoes' },
+      { label: 'Pacientes Atendidos', path: '/profissional/pacientes' },
       { label: 'Mensagens', path: '/profissional/mensagens' },
       {
         label: 'Prescrições',

@@ -158,6 +158,10 @@ Table assessments {
     is_simplified boolean [default: false]
     content text [not null]
     created_at timestamp [default: "CURRENT_TIMESTAMP"]
+
+    indexes {
+        unique_appointment_patient_simplified [unique, columns: [appointment_id, patient_id, is_simplified]]
+    }
 }
 
 Table plans {
