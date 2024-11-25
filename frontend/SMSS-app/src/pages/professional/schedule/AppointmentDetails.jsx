@@ -1,5 +1,5 @@
 import { Box, Alert, AlertIcon, Button, Flex } from '@chakra-ui/react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import { useFetchAppointmentDetails } from '../../../hooks/useAppointments';
 import Loading from '../../../components/Loading/Loading';
@@ -10,7 +10,6 @@ const AppointmentDetails = () => {
   const { appointmentId } = useParams();
   const { tokens } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const { data: appointmentDetails, isPending } = useFetchAppointmentDetails(
     appointmentId,
@@ -38,6 +37,17 @@ const AppointmentDetails = () => {
     );
   }
 
+  const handleNavigateToCreateAssessment = () => {
+    const { appointment , patient } = appointmentDetails;
+    navigate(`/profissional/avaliacoes/novo`, {
+      state: {
+        appointmentId: appointment.appointment_id,
+        patientId: patient.patient_id,
+      },
+    });
+  };
+
+
   return (
     <Box
       maxW="container.md"
@@ -56,6 +66,9 @@ const AppointmentDetails = () => {
           tokens={tokens}
           userType="profissional"
         />
+        <Button ml={5} colorScheme="blue" onClick={handleNavigateToCreateAssessment}>
+          Criar Avaliação
+        </Button>
       </Flex>
     </Box>
   );

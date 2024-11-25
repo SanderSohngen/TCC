@@ -13,11 +13,18 @@ const MyAppointments = () => {
   if (isPending || !user || !appointmentsData) return <Loading />;
 
   const getTitle = (appointment) => {
-    return 'Consulta com Profissional';
+    return appointment.professional_name;
   };
 
-  const getColor = () => {
-    return 'customPalette.900';
+  const getColor = (appointment) => {
+    const profession = appointment.profession;
+    const professionColor = {
+      medic: '#22577a',
+      psycologist: '#06090e',
+      nutritionist: '#c8ae92',
+      personal_trainer: '#61000d',
+    }
+    return professionColor[profession];
   };
 
   const handleEventClick = (info) => {

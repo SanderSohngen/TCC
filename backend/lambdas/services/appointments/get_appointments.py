@@ -2,6 +2,9 @@ import os
 import json
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from aws_requests_auth.aws_auth import AWSRequestsAuth
+import boto3
+import requests
 
 def lambda_handler(event, context):
     claims = get_claims(event)
@@ -19,8 +22,20 @@ def lambda_handler(event, context):
     try:
         if user_type == "patient":
             appointments = fetch_patient_appointments(cursor, user_id)
+            professional_ids = list({appt["professional_id"] for appt in appointments})
+            enriched_data = fetch_data_from_api(
+                f"{os.environ['PROFESSIONALS_API_URL']}",
+                {"ids": list(professional_ids)}
+            )
+            enrich_appointments(appointments, enriched_data, "professional_id")
         elif user_type == "professional":
             appointments = fetch_professional_appointments(cursor, user_id)
+            patient_ids = list({appt["patient_id"] for appt in appointments})
+            enriched_data = fetch_data_from_api(
+                f"{os.environ['PATIENTS_API_URL']}",
+                {"ids": list(patient_ids)}
+            )
+            enrich_appointments(appointments, enriched_data, "patient_id")
 
         return {
             "statusCode": 200,
@@ -90,3 +105,29 @@ def fetch_professional_appointments(cursor, professional_id):
     """
     cursor.execute(query, (professional_id,))
     return cursor.fetchall()
+
+def fetch_data_from_api(url, body):
+    session = boto3.Session()
+    credentials = session.get_credentials().get_frozen_credentials()
+    region = session.region_name
+    service = 'execute-api'
+    auth = AWSRequestsAuth(
+        aws_access_key=credentials.access_key,
+        aws_secret_access_key=credentials.secret_key,
+        aws_host=url.split('/')[2],
+        aws_region=region,
+        aws_service=service,
+        aws_token=credentials.token
+    )
+
+    response = requests.post(url, json=body, auth=auth)
+    response.raise_for_status()
+    return response.json()
+
+def enrich_appointments(assessments, enriched_data, key):
+    enriched_map = {item[key]: item for item in enriched_data}
+
+    for assessment in assessments:
+        data_key = assessment[key]
+        if data_key in enriched_map:
+            assessment.update(enriched_map[data_key])

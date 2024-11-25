@@ -19,13 +19,13 @@ export default function Schedule() {
   if (isPending || !user || !appointmentsData) return <Loading />;
 
   const getTitle = (appointment) => {
-    return 'Consulta com Paciente';
+    return appointment.patient_name;
   };
 
   const getColor = (appointment) => {
     const status = appointment.status;
     if (status === 'scheduled') return 'teal';
-    if (status === 'completed') return 'gray';
+    if (status === 'completed') return '#22577a';
   };
 
   const handleEventClick = (info) => {
