@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSubmitAvailability, useFetchAvailability } from '../../hooks/professional/useAvailability';
 import { useAuth } from '../../context/AuthContext';
 
-const daysOfWeek = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado', 'Domingo'];
+const daysOfWeek = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
 const timeSlots = Array.from({ length: 24 }, (_, i) => `${(i).toString().padStart(2, '0')}:00`);
 
 function AvailabilityForm({ onSubmit }) {
