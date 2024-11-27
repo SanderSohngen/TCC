@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Alert, AlertIcon } from '@chakra-ui/react';
+import { Box, Heading, Text } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
 
 const AppointmentDetailsComponent = ({ appointmentData }) => {
