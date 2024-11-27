@@ -15,9 +15,9 @@ import { ChevronDownIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
 
 const LoggedTabs = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const location = useLocation();
-  const [isMobile] = useMediaQuery('(max-width: 1005px)');
+  const [isMobile] = useMediaQuery('(max-width: 1045px)');
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navConfig = {
@@ -134,6 +134,23 @@ const LoggedTabs = () => {
       }
     });
 
+  const logoutButton = (
+    <Button
+      variant="ghost"
+      size="sm"
+      mx={1}
+      color="white"
+      _hover={{ bg: 'customPalette.800' }}
+      _active={{ color: 'customPalette.1000' }}
+      onClick={() => {
+        logout();
+        setMenuOpen(false);
+      }}
+    >
+      Logout
+    </Button>
+  );
+
   return (
     <Flex align="center">
       {isMobile ? (
@@ -147,13 +164,17 @@ const LoggedTabs = () => {
             aria-label="Menu"
           />
           <MenuList bg="customPalette.900">
-            <Stack direction="column">
+            <Stack direction="column" align="stretch">
               {renderMenuItems(userNav)}
+              {logoutButton}
             </Stack>
           </MenuList>
         </Menu>
       ) : (
-        <Flex>{renderMenuItems(userNav)}</Flex>
+        <Flex>
+          {renderMenuItems(userNav)}
+          {logoutButton}
+        </Flex>
       )}
     </Flex>
   );

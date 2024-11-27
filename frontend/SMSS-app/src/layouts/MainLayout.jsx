@@ -43,7 +43,7 @@ function MainLayout() {
     return (
         <Flex flexDirection="column" minHeight="100vh">
             <Header />
-            <Flex flex="1" direction="column" overflowY="auto" justifyContent="center">
+            <Flex flex="1" direction="column" overflowY="auto" justifyContent="center" bg="gray.50">
             {navigation.state === 'loading' ? <Loading /> : <Outlet />}
         </Flex>
             <Footer />

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useMeetingManager } from 'amazon-chime-sdk-component-library-react';
-import { Flex, Button } from '@chakra-ui/react';
+import { Flex, Button, AspectRatio } from '@chakra-ui/react';
 import {
 	AudioInputControl,
 	AudioOutputControl,
@@ -37,15 +37,22 @@ const MeetingRoom = ({ meetingData }) => {
 	};
 
 	return (
-		<Flex direction="column" height="60vh">
-			<Flex flex="1" bg="gray.800" justifyContent="center" alignItems="center">
+		<Flex
+			direction="column"
+			maxW="1920px"
+			w="100%"
+			mx="auto"
+		>
+			<AspectRatio ratio={16 / 9} flex="1" bg="gray.800" mb={4}>
 				<VideoTileGrid />
-			</Flex>
+			</AspectRatio>
 			<ControlBar layout="undocked-horizontal">
 				<AudioInputControl />
 				<AudioOutputControl />
 				<VideoInputControl />
-				<Button onClick={handleLeaveMeeting}>Sair da Consulta</Button>
+				<Button onClick={handleLeaveMeeting} colorScheme="red">
+					Sair da Consulta
+				</Button>
 			</ControlBar>
 		</Flex>
 	);
