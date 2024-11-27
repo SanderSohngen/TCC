@@ -95,7 +95,6 @@ def fetch_data_from_api(url):
     )
 
     response = requests.get(url, auth=auth)
-    print(response.json())
     response.raise_for_status()
     return response.json()
 

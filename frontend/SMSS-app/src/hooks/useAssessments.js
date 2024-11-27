@@ -25,7 +25,7 @@ export const useFetchAssessmentDetails = ({ assessmentId, idToken }) => {
   });
 };
 
-export const useSubtmitAssessment = () => {
+export const useSubmitAssessment = () => {
   return useMutation({
     mutationFn: assessmentsService.submitAssessment,
   });

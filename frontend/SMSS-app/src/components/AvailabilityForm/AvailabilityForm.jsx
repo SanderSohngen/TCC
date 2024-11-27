@@ -135,6 +135,6 @@ function AvailabilityForm({ onSubmit }) {
 			</Button>
 		</Box>
 	);
-}
+};
 
 export default AvailabilityForm;

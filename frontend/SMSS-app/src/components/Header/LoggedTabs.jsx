@@ -1,6 +1,5 @@
 import { useAuth } from '../../context/AuthContext';
 import {
-  Box,
   Flex,
   Menu,
   MenuButton,

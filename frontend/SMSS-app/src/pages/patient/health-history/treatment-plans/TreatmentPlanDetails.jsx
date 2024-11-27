@@ -6,7 +6,6 @@ const TreatmentPlansDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { plan } = location.state || {};
-  console.log(plan)
 
   if (!plan) {
     return (

@@ -17,7 +17,6 @@ def lambda_handler(event, context):
     user_type = claims.get("custom:user_type")
 
     body = json.loads(event.get("body", "{}"))
-    print(body)
     name = body.get("name")
     description = body.get("description")
     category = body.get("category")

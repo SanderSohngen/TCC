@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Box, Button, Textarea, VStack, useToast, Heading, FormControl, FormLabel } from '@chakra-ui/react';
-import { useSubtmitAssessment } from '../../../hooks/useAssessments';
+import { useSubmitAssessment } from '../../../hooks/useAssessments';
 import { useAuth } from '../../../context/AuthContext';
 
 const CreateAssessment = () => {
@@ -10,7 +10,7 @@ const CreateAssessment = () => {
   const { idToken } = tokens;
 	const location = useLocation();
 	const navigate = useNavigate();
-  const submitAssessment = useSubtmitAssessment();
+  const submitAssessment = useSubmitAssessment();
   const [simplifiedData, setSimplifiedData] = useState('');
   const [detailedData, setDetailedData] = useState('');
   const { appointmentId, patientId } = location.state || {};

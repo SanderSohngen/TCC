@@ -43,10 +43,8 @@ const RescheduleAppointment = () => {
   const getColor = (slot) => ('green');
 
   const handleEventClick = async (info) => {
-    console.log('Slot selecionado:', info.event);
     const newSlotId = info.event.id;
     const { appointment } = appointmentDetails;
-    console.log('appointment:', appointment);
 
     updateAppointment.mutate(
       {

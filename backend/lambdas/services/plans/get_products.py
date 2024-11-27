@@ -17,8 +17,7 @@ def lambda_handler(event, context):
     body = json.loads(event.get("body", "{}"))
     categories = body.get("categories")
     profession = body.get("profession")
-    print(profession)
-    
+
     if not user_id or user_type != "professional":
         return {
             "statusCode": 403,

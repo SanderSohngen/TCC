@@ -25,7 +25,7 @@ const PatientTreatmentPlans = () => {
     idToken: tokens?.idToken, 
     patientId 
   });
-  console.log(plans);
+
   const [order, setOrder] = useState('asc');
   const [planTypeFilter, setPlanTypeFilter] = useState('');
   const navigate = useNavigate();

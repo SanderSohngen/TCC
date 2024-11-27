@@ -5,19 +5,19 @@ const API_AVAILABILITY = import.meta.env.VITE_API_AVAILABILITY;
 
 const availabilityURL = API_BASE_URL + API_AVAILABILITY;
 
-export const submitAvailability = async ({ availabilityData, idToken} ) => {
+export const submitAvailability = async ({ availabilityData, idToken }) => {
 	try {
-        const response = await axios.post(availabilityURL, availabilityData, {
-            headers: {
-                Authorization: `Bearer ${idToken}`,
-            },
-        });
+		const response = await axios.post(availabilityURL, availabilityData, {
+			headers: {
+				Authorization: `Bearer ${idToken}`,
+			},
+		});
 
-        return response.data;
-    } catch (error) {
-        console.error('Erro ao submeter disponibilidade:', error);
-        throw error;
-    }
+		return response.data;
+	} catch (error) {
+		console.error('Erro ao submeter disponibilidade:', error);
+		throw error;
+	}
 };
 
 export const fetchAvailability = async (idToken) => {
@@ -33,4 +33,4 @@ export const fetchAvailability = async (idToken) => {
 		console.error('Erro ao buscar disponibilidade:', error);
 		throw error;
 	}
-}
+};

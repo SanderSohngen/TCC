@@ -1,11 +1,11 @@
 import {
-    Box,
-    Input,
-    Button,
-    useToast,
-    FormControl,
-    FormErrorMessage,
-    Select,
+  Box,
+  Input,
+  Button,
+  useToast,
+  FormControl,
+  FormErrorMessage,
+  Select,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useSignup } from '../../hooks/useAccount';
