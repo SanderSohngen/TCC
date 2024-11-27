@@ -24,18 +24,20 @@ def lambda_handler(event, context):
 
         if user_type == "patient":
             professional_ids = {a["professional_id"] for a in my_assessments}
-            enriched_data = fetch_data_from_api(
-                f"{os.environ['PROFESSIONALS_API_URL']}",
-                {"ids": list(professional_ids)}
-            )
-            enrich_assessments(my_assessments, enriched_data, "professional_id")
+            if professional_ids:
+                enriched_data = fetch_data_from_api(
+                    f"{os.environ['PROFESSIONALS_API_URL']}",
+                    {"ids": list(professional_ids)}
+                )
+                enrich_assessments(my_assessments, enriched_data, "professional_id")
         elif user_type == "professional":
             patient_ids = {a["patient_id"] for a in my_assessments}
-            enriched_data = fetch_data_from_api(
-                f"{os.environ['PATIENTS_API_URL']}",
-                {"ids": list(patient_ids)}
-            )
-            enrich_assessments(my_assessments, enriched_data, "patient_id")
+            if patient_ids:
+                enriched_data = fetch_data_from_api(
+                    f"{os.environ['PATIENTS_API_URL']}",
+                    {"ids": list(patient_ids)}
+                )
+                enrich_assessments(my_assessments, enriched_data, "patient_id")
 
         return {
             "statusCode": 200,
