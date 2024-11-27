@@ -38,7 +38,7 @@ def lambda_handler(event, context):
         conn.close()
 
 def get_claims(event):
-    request_context = event.get('requestContext')
+    request_context = event.get('requestContext', {})
     authorizer = request_context.get('authorizer', {})
     jwt = authorizer.get('jwt', {})
     claims = jwt.get('claims', {})
@@ -72,7 +72,7 @@ def get_user_data(conn, cursor, user_id, user_type):
             'table': 'professionals',
             'join_column': 'professional_id',
             'fields': [
-                'pr.profession', 'pr.credentials', 'pr.price', 'pr.is_verified', 'pr.bio', 'pr.specialties'
+                'p.profession', 'p.credentials', 'p.price', 'p.is_verified', 'p.bio', 'p.specialties'
             ],
             'join': '',
         },
@@ -106,11 +106,6 @@ def get_user_data(conn, cursor, user_id, user_type):
         {join_clause}
         WHERE u.user_id = %s AND u.user_type = %s
     """
-
     cursor.execute(query, (user_id, user_type))
     result = cursor.fetchone()
-
-    if not result:
-        return None
-
     return result
