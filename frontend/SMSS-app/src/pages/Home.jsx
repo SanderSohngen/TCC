@@ -8,7 +8,7 @@ const Home = () => {
 
   return (
     <Flex align="center" justify="center" padding="4" flexGrow={1}>
-      <VStack spacing={6} width="100%" maxWidth="800px">
+      <VStack spacing={6} width="100%" >
         {isLoggedIn ? (
           <>
             <HomeAccordion />

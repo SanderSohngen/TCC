@@ -66,10 +66,13 @@ const AppointmentDetails = () => {
           tokens={tokens}
           userType="profissional"
         />
-        <Button ml={5} colorScheme="blue" onClick={handleNavigateToCreateAssessment}>
+        <Button ml={5} colorScheme="teal" onClick={handleNavigateToCreateAssessment}>
           Criar Avaliação
         </Button>
       </Flex>
+			<Button onClick={() => navigate(-1)} colorScheme="gray">
+				Voltar
+			</Button>
     </Box>
   );
 };

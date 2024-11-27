@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, forwardRef } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -6,7 +6,7 @@ import ptLocale from '@fullcalendar/core/locales/pt';
 import { Box } from '@chakra-ui/react';
 import Loading from '../Loading/Loading';
 
-const Calendar = ({ data, getTitle, getColor, onEventClick }) => {
+const Calendar = forwardRef(({ data, getTitle, getColor, onEventClick }, ref) => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Calendar = ({ data, getTitle, getColor, onEventClick }) => {
         locale={ptLocale}
         plugins={[timeGridPlugin, dayGridPlugin]}
         initialView="timeGridWeek"
-        contentHeight={600}
+        contentHeight={500}
         events={events}
         headerToolbar={{
           start: 'prev,next today',
@@ -54,7 +54,7 @@ const Calendar = ({ data, getTitle, getColor, onEventClick }) => {
       />
     </Box>
   );
-};
+});
 
 const calculateEndTime = (startTime) => {
   return new Date(new Date(startTime).getTime() + 60 * 60 * 1000).toISOString();

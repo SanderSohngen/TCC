@@ -71,17 +71,20 @@ const SlotBrowser = () => {
   };
 
   const filteredSlots =
-    slots?.filter(
-      (slot) =>
-        slot.slot_datetime.split(' ')[0] === currentDate &&
-        new Date(slot.slot_datetime) >= new Date()
-    ) || [];
+  slots?.filter((slot) => {
+    const slotDateTime = DateTime.fromSQL(slot.slot_datetime).setZone('local');
+    const currentDateTime = DateTime.now().setZone('local');
+
+    return (
+      slotDateTime.toISODate() === currentDate && slotDateTime >= currentDateTime
+    );
+  }) || [];
   
   const formatDate = (dateString, formatType) => {
     if (formatType === 'date')
       return dateString.split("-").slice(1).reverse().join("/");
     if (formatType === 'time')
-      return DateTime.fromFormat(dateString, 'yyyy-MM-dd HH:mm:ssZZ').toFormat('HH:mm');
+      return DateTime.fromSQL(dateString).toFormat('HH:mm');
     return dateString;
   };
 
@@ -147,7 +150,7 @@ const SlotBrowser = () => {
                   p={4}
                   borderWidth="1px"
                   borderRadius="lg"
-                  shadow="sm"
+                  shadow="lg"
                   bg="white"
                 >
                   <Text>

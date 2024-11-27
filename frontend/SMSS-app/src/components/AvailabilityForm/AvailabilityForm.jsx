@@ -1,4 +1,4 @@
-import { Grid, Box, Button, Heading, useToast } from '@chakra-ui/react';
+import { Grid, Box, Button, useToast } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { useSubmitAvailability, useFetchAvailability } from '../../hooks/professional/useAvailability';
 import { useAuth } from '../../context/AuthContext';
@@ -88,10 +88,7 @@ function AvailabilityForm({ onSubmit }) {
 
 
 	return (
-		<Box p={6} m={5} borderWidth="1px" borderRadius="lg" overflow="hidden" display="flex" flexDirection="column" alignItems="center">
-			<Heading size="lg" mb={4} color="customPalette.900" textAlign="center">
-				Configurar Disponibilidade
-			</Heading>
+		<Box borderWidth="1px" borderRadius="lg" overflow="hidden" display="flex" flexDirection="column" alignItems="center">
 			<Grid templateColumns={`repeat(${daysOfWeek.length}, 1fr)`} gap={0} width="100%">
 				{daysOfWeek.map((day, index) => (
 					<Box
@@ -133,7 +130,7 @@ function AvailabilityForm({ onSubmit }) {
 					})
 				)}
 			</Grid>
-			<Button mt={4} colorScheme="teal" size="sm" onClick={handleSubmit}>
+			<Button mt={2} colorScheme="teal" size="sm" onClick={handleSubmit}>
 				Atualizar
 			</Button>
 		</Box>

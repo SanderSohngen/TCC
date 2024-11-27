@@ -42,7 +42,7 @@ const Login = () => {
 
     return (
         <>
-        <Box width="md">
+        <Box >
             <form onSubmit={handleSubmit}>
                 <FormControl mb={4} isInvalid={!!formErrors.email}>
                     <Input name="email" placeholder="E-mail" value={formData.email} onChange={handleInputChange} isRequired />

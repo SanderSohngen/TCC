@@ -116,7 +116,7 @@ const Signup = () => {
   };
 
   return (
-    <Box width="md">
+    <Box >
       <form onSubmit={handleSubmit}>
         <FormControl mb={4}>
           <Input

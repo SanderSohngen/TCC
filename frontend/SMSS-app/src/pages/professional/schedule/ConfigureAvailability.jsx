@@ -1,5 +1,15 @@
-import { useState } from 'react';
-import { Box, Button, Heading, useToast } from '@chakra-ui/react';
+import { useRef, useState } from 'react';
+import {
+  Box,
+  Button,
+  Heading,
+  useToast,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import AvailabilityForm from '../../../components/AvailabilityForm/AvailabilityForm';
 import Calendar from '../../../components/Calendar/Calendar';
@@ -13,28 +23,26 @@ const ConfigureAvailability = () => {
   const navigate = useNavigate();
   const { data: slotsData, isPending, refetch } = useFetchMySlots(tokens);
   const toggleSlot = useToggleSlot();
+  const calendarRef = useRef(null);
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
   if (isPending) return <Loading />;
 
-  const formattedSlots = slotsData.map((slot) => ({
+  const formattedSlots = slotsData?.map((slot) => ({
     id: slot.slot_id,
     start: slot.slot_datetime,
     ...slot,
   }));
 
   const getTitle = (item) => {
-    if (item.is_reserved)
-      return 'Agendado';
-    if (item.is_blocked)
-      return 'Bloqueado';
+    if (item.is_reserved) return 'Agendado';
+    if (item.is_blocked) return 'Bloqueado';
     return 'Disponível';
   };
 
   const getColor = (item) => {
-    if (item.is_reserved)
-      return 'red';
-    if (item.is_blocked)
-      return 'gray';
+    if (item.is_reserved) return 'red';
+    if (item.is_blocked) return 'gray';
     return 'green';
   };
 
@@ -74,23 +82,54 @@ const ConfigureAvailability = () => {
     refetch();
   };
 
+  const handleTabChange = (index) => {
+    setSelectedTabIndex(index);
+    if (index === 0 && calendarRef.current) {
+      setTimeout(() => {
+        calendarRef.current.getApi().updateSize();
+      }, 100);
+    }
+  };
+
   return (
-    <Box mt={5} display="flex" flexDirection="column" alignItems="center">
+    <Box
+      mt={5}
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      maxW="container.lg"
+      mx="auto"
+    >
       <Heading size="lg" mb={4} color="customPalette.900" textAlign="center">
-        Configurar Slots
+        Configurar Agenda
       </Heading>
-      <Calendar
-        data={formattedSlots}
-        getTitle={getTitle}
-        getColor={getColor}
-        onEventClick={handleEventClick}
-      />
-      <AvailabilityForm onSubmit={handleAvailabilityUpdate} />
-      <Button
-        m={5}
-        colorScheme="gray"
-        onClick={handleBack}
+      <Tabs
+        variant="enclosed"
+        width="100%"
+        index={selectedTabIndex}
+        onChange={handleTabChange}
+        isFitted
       >
+        <TabList>
+          <Tab>Slots</Tab>
+          <Tab>Disponibilidade</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel >
+            <Calendar
+              ref={calendarRef}
+              data={formattedSlots}
+              getTitle={getTitle}
+              getColor={getColor}
+              onEventClick={handleEventClick}
+            />
+          </TabPanel>
+          <TabPanel>
+            <AvailabilityForm onSubmit={handleAvailabilityUpdate} />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+      <Button mb={5} colorScheme="gray" onClick={handleBack}>
         Voltar
       </Button>
     </Box>

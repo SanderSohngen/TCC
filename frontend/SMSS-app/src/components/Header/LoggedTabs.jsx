@@ -18,7 +18,7 @@ import { useState } from 'react';
 const LoggedTabs = () => {
   const { user } = useAuth();
   const location = useLocation();
-  const [isMobile] = useMediaQuery('(max-width: 880px)');
+  const [isMobile] = useMediaQuery('(max-width: 1005px)');
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navConfig = {
@@ -51,21 +51,15 @@ const LoggedTabs = () => {
     ],
     professional: [
       { label: 'Minha Agenda', path: '/profissional/minha-agenda' },
+      { label: 'Mensagens', path: '/profissional/mensagens' },
+      { label: 'Pacientes Atendidos', path: '/profissional/pacientes' },
+      { label: 'Avaliações', path: '/profissional/avaliacoes' },
+      { label: 'Prescrições', path: '/profissional/prescricoes' },
       {
         label: 'Planos de Tratamento',
         submenu: [
           { label: 'Criar Novo Plano', path: '/profissional/planos-de-tratamento/novo' },
           { label: 'Listar Planos', path: '/profissional/planos-de-tratamento' },
-        ],
-      },
-      { label: 'Avaliações', path: '/profissional/avaliacoes' },
-      { label: 'Pacientes Atendidos', path: '/profissional/pacientes' },
-      { label: 'Mensagens', path: '/profissional/mensagens' },
-      {
-        label: 'Prescrições',
-        submenu: [
-          { label: 'Criar Prescrições', path: '/profissional/prescricoes/nova' },
-          { label: 'Listar Prescrições', path: '/profissional/prescricoes' },
         ],
       },
     ],

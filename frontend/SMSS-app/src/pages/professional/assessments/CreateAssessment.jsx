@@ -93,55 +93,59 @@ const CreateAssessment = () => {
 		);
 	};
 
-  return (
-    <Box 
-      as="form" 
-      onSubmit={handleSubmit} 
-      maxW="600px" 
-      mx="auto" 
-      mt={8} 
-      p={6} 
-      borderWidth={1} 
-      borderRadius="lg" 
-      boxShadow="lg"
-      bg="white"
-    >
-      <Heading size="lg" mb={6} textAlign="center" color="blue.600">
-        Criar Avaliações
-      </Heading>
-      <VStack align="start" spacing={6}>
-        <FormControl isRequired>
-          <FormLabel>Avaliação Simplificada</FormLabel>
-          <Textarea
-            placeholder="Escreva a avaliação simplificada"
-            value={simplifiedData}
-            onChange={(e) => setSimplifiedData(e.target.value)}
-            resize="none"
-            rows={4}
-          />
-        </FormControl>
-        <FormControl isRequired>
-          <FormLabel>Avaliação Detalhada</FormLabel>
-          <Textarea
-            placeholder="Escreva a avaliação detalhada"
-            value={detailedData}
-            onChange={(e) => setDetailedData(e.target.value)}
-            resize="none"
-            rows={6}
-          />
-        </FormControl>
-        <Button 
-          type="submit" 
-          colorScheme="teal" 
-          size="lg" 
-          w="100%" 
-          isLoading={submitAssessment.isLoading}
-        >
-          Criar Avaliação
-        </Button>
-      </VStack>
-    </Box>
-  );
+return (
+	<Box 
+		as="form" 
+		onSubmit={handleSubmit} 
+		maxW="600px" 
+		mx="auto" 
+		mt={8} 
+		p={6} 
+		borderWidth={1} 
+		borderRadius="lg" 
+		boxShadow="lg"
+		bg="white"
+		textAlign="center"
+	>
+		<Heading size="lg" mb={6} textAlign="center" color="blue.600">
+			Criar Avaliações
+		</Heading>
+		<VStack align="center" spacing={6}>
+			<FormControl isRequired>
+				<FormLabel>Avaliação Simplificada</FormLabel>
+				<Textarea
+					placeholder="Escreva a avaliação simplificada"
+					value={simplifiedData}
+					onChange={(e) => setSimplifiedData(e.target.value)}
+					resize="none"
+					rows={4}
+				/>
+			</FormControl>
+			<FormControl isRequired>
+				<FormLabel>Avaliação Detalhada</FormLabel>
+				<Textarea
+					placeholder="Escreva a avaliação detalhada"
+					value={detailedData}
+					onChange={(e) => setDetailedData(e.target.value)}
+					resize="none"
+					rows={6}
+				/>
+			</FormControl>
+			<Button 
+				type="submit" 
+				colorScheme="teal" 
+				size="lg" 
+				w="100%" 
+				isLoading={submitAssessment.isLoading}
+			>
+				Criar Avaliação
+			</Button>
+			<Button onClick={() => navigate(-1)} colorScheme="gray" size="md">
+				Voltar
+			</Button>
+		</VStack>
+	</Box>
+);
 };
 
 export default CreateAssessment;

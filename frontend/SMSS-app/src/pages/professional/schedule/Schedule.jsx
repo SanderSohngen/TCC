@@ -1,4 +1,4 @@
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button, Heading } from '@chakra-ui/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useFetchAppointments } from '../../../hooks/useAppointments'
 import Calendar from '../../../components/Calendar/Calendar';
@@ -40,6 +40,9 @@ export default function Schedule() {
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
+    <Heading size="lg" mb={4} color="customPalette.900" textAlign="center">
+      Minha Agenda
+    </Heading>
       <Calendar
         data={formattedData}
         getTitle={getTitle}

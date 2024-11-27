@@ -22,8 +22,8 @@ const AssessmentHistory = () => {
   const { patientId } = useParams();
   const { tokens } = useAuth();
   const { data: assessments = [], isLoading: isPending } = useFetchPatientAssessments({ 
-	idToken: tokens?.idToken, 
-	patientId 
+    idToken: tokens?.idToken, 
+    patientId 
   });
   const [filters, setFilters] = useState({ is_simplified: '' });
   const [order, setOrder] = useState('asc');
@@ -119,6 +119,11 @@ const AssessmentHistory = () => {
             ))}
           </Tbody>
         </Table>
+      </Box>
+      <Box mt={4} textAlign="center">
+        <Button onClick={() => navigate(-1)} colorScheme="gray" size="md">
+          Voltar
+        </Button>
       </Box>
     </Box>
   );

@@ -39,9 +39,9 @@ const AppointmentDetails = () => {
   }
 
   return (
-    <Box maxW="container.md" mx="auto" mt={8} p={6} borderWidth="1px" borderRadius="lg" shadow="md">
+    <Box maxW="container.md" mx="auto" mt={8} p={6} borderWidth="1px" borderRadius="lg" shadow="md" textAlign="center">
       <AppointmentDetailsComponent appointmentData={appointmentDetails} />
-      <Flex mt={6} justify="space-between">
+      <Flex mt={6} justify="center" gap={4}>
         <Button colorScheme="teal" onClick={handleReschedule}>
           Remarcar
         </Button>
@@ -54,6 +54,9 @@ const AppointmentDetails = () => {
           Cancelar
         </Button>
       </Flex>
+      <Button onClick={() => navigate(-1)} colorScheme="gray" size="md" mt={4}>
+        Voltar
+      </Button>
     </Box>
   );
 };
