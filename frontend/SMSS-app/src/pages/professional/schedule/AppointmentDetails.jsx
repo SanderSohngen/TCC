@@ -38,7 +38,7 @@ const AppointmentDetails = () => {
   }
 
   const handleNavigateToCreateAssessment = () => {
-    const { appointment , patient } = appointmentDetails;
+    const { appointment, patient } = appointmentDetails;
     navigate(`/profissional/avaliacoes/novo`, {
       state: {
         appointmentId: appointment.appointment_id,
@@ -47,6 +47,14 @@ const AppointmentDetails = () => {
     });
   };
 
+  const handleNavigateToCreatePrescription = () => {
+    const { patient } = appointmentDetails;
+    navigate(`/profissional/prescricoes/${appointmentId}/nova`, {
+      state: {
+        patientId: patient.patient_id,
+      },
+    });
+  };
 
   return (
     <Box
@@ -60,22 +68,24 @@ const AppointmentDetails = () => {
       textAlign="center"
     >
       <AppointmentDetailsComponent appointmentData={appointmentDetails} />
-      <Flex mt={6} justify="center">
+      <Flex mt={6} justify="center" flexWrap="wrap" gap={4}>
         <SubmitMeetingButton
           appointmentId={appointmentId}
           tokens={tokens}
           userType="profissional"
         />
-        <Button ml={5} colorScheme="teal" onClick={handleNavigateToCreateAssessment}>
+        <Button colorScheme="teal" onClick={handleNavigateToCreateAssessment}>
           Criar Avaliação
         </Button>
+        <Button colorScheme="blue" onClick={handleNavigateToCreatePrescription}>
+          Criar Prescrição
+        </Button>
+        <Button colorScheme="gray" onClick={() => navigate(-1)}>
+          Voltar
+        </Button>
       </Flex>
-			<Button onClick={() => navigate(-1)} colorScheme="gray">
-				Voltar
-			</Button>
     </Box>
   );
 };
 
 export default AppointmentDetails;
-

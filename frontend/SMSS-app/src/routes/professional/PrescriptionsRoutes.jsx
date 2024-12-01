@@ -6,8 +6,8 @@ import PrescriptionDetails from '../../pages/professional/prescriptions/Prescrip
 const PrescriptionsRoutes = () => (
   <Routes>
     <Route index element={<Prescriptions />} />
-    <Route path="nova" element={<CreatePrescription />} />
-    <Route path=":prescriptionId/detalhes" element={<PrescriptionDetails />} />
+    <Route path=":appointmentId/nova" element={<CreatePrescription />} />
+    <Route path=":documentId/detalhes" element={<PrescriptionDetails />} />
   </Routes>
 );
 
