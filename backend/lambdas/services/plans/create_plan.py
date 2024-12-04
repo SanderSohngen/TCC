@@ -2,6 +2,7 @@ import os
 import json
 import psycopg2
 from psycopg2.extras import RealDictCursor
+import boto3
 
 PLAN_TYPE_RESTRICTIONS = {
     "medic": ["medication"],
@@ -46,14 +47,23 @@ def lambda_handler(event, context):
     conn, cursor = connect_db()
     try:
         plan = create_plan(cursor, patient_id, user_id, plan_type, description)
+        plan_id = plan['plan_id']
+        plan_items = []
+
         for item in items:
             if 'product_id' not in item or 'quantity' not in item:
                 return {
                     "statusCode": 400,
                     "body": json.dumps({"error": "Each item must contain 'product_id' and 'quantity'."}, ensure_ascii=False)
                 }
-            create_plan_item(cursor, plan['plan_id'], item['product_id'], item['quantity'], item.get('instructions'))
+            plan_item = create_plan_item(cursor, plan_id, item['product_id'], item['quantity'], item.get('instructions'))
+            plan_item['product_name'] = item['product_name']
+            plan_item['quantity'] = item['quantity']
+            plan_items.append(plan_item)
+
         conn.commit()
+        send_message_to_sqs(plan_id, plan_type, plan_items)
+
         return {
             "statusCode": 201,
             "body": json.dumps(plan, ensure_ascii=False, default=str)
@@ -99,5 +109,22 @@ def create_plan_item(cursor, plan_id, product_id, quantity, instructions):
     query = """
         INSERT INTO plan_items (plan_id, product_id, quantity, instructions)
         VALUES (%s, %s, %s, %s)
+        RETURNING plan_item_id, plan_id, product_id, quantity, instructions
     """
     cursor.execute(query, (plan_id, product_id, quantity, instructions))
+    return cursor.fetchone()
+
+def send_message_to_sqs(plan_id, plan_type, plan_items):
+    sqs = boto3.client('sqs')
+    queue_url = os.environ['PLAN_ORDER_OPTIONS_QUEUE_URL']
+
+    message = {
+        'plan_id': str(plan_id),
+        'plan_type': plan_type,
+        'plan_items': plan_items
+    }
+
+    sqs.send_message(
+        QueueUrl=queue_url,
+        MessageBody=json.dumps(message, default=str)
+    )

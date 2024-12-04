@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -11,12 +10,11 @@ import {
   Th,
   Td,
   Button,
-  useToast,
   Divider,
   VStack,
   Flex,
 } from '@chakra-ui/react';
-import { useFetchOrderDetails, useUpdateOrderStatus } from '../../../hooks/useOrders';
+import { useFetchOrderDetails } from '../../../hooks/useOrders';
 import { useAuth } from '../../../context/AuthContext';
 import Loading from '../../../components/Loading/Loading';
 import { DateTime } from 'luxon';
@@ -28,16 +26,7 @@ const OrderDetails = () => {
     orderId: orderId,
     idToken: tokens?.idToken,
   });
-  const [status, setStatus] = useState('');
-  const updateOrderStatus = useUpdateOrderStatus();
   const navigate = useNavigate();
-  const toast = useToast();
-
-  useEffect(() => {
-    if (orderDetails) {
-      setStatus(orderDetails.order_status);
-    }
-  }, [orderDetails]);
 
   if (isFetching) return <Loading />;
 
@@ -64,48 +53,16 @@ const OrderDetails = () => {
     canceled: 'Cancelado',
   };
 
-  const statusTransitions = {
-    pending: ['canceled'],
-    paid: ['shipped', 'canceled'],
-    shipped: ['delivered', 'canceled'],
-    delivered: [],
-  };
-
-  const handleStatusUpdate = async (newStatus) => {
-    try {
-      await updateOrderStatus.mutateAsync({
-        orderId: orderId,
-        status: newStatus,
-        idToken: tokens?.idToken,
-      });
-      setStatus(newStatus);
-      orderDetails.order_status = newStatus;
-      toast({
-        title: 'Status atualizado com sucesso!',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
-    } catch (error) {
-      toast({
-        title: 'Erro ao atualizar o status do pedido.',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
-    }
-  };
-
   return (
     <Box maxW="container.md" mx="auto" mt={8} p={6} borderWidth={1} borderRadius="lg" boxShadow="md">
       <Heading size="lg" mb={6} color="customPalette.900" textAlign="center">
-        Detalhes do Pedido
+        Detalhes da Compra
       </Heading>
       <Box mb={6}>
         <VStack align="start" spacing={2}>
           <Text><strong>ID do Pedido:</strong> {orderDetails.order_id}</Text>
           <Text><strong>Data:</strong> {parseDate(orderDetails.order_date)}</Text>
-          <Text><strong>Cliente:</strong> {orderDetails.patient_name}</Text>
+          <Text><strong>Status:</strong> {orderStatusMapping[orderDetails.order_status]}</Text>
           <Text><strong>Total:</strong> R$ {orderDetails.total_amount}</Text>
           <Text><strong>Método de Pagamento:</strong> {orderDetails.payment_method === 'credit_card' ? 'Cartão de Crédito' : 'PIX'}</Text>
         </VStack>
@@ -113,10 +70,10 @@ const OrderDetails = () => {
 
       <Divider my={4} />
 
-      <Heading size="md" mb={4}>
+      <Heading size="md" mb={4} textAlign="center">
         Itens do Pedido
       </Heading>
-      <Table variant="simple" size="sm">
+      <Table variant="simple" colorScheme="gray" size="sm">
         <Thead>
           <Tr>
             <Th>Produto</Th>
@@ -137,24 +94,11 @@ const OrderDetails = () => {
         </Tbody>
       </Table>
 
-      <Box mt={6}>
-        <Text><strong>Status Atual:</strong> {orderStatusMapping[status]}</Text>
-        <Flex mt={4} justifyContent="space-between">
-          {statusTransitions[orderDetails.order_status].includes('canceled') && (
-            <Button colorScheme="red" onClick={() => handleStatusUpdate('canceled')} isPending={updateOrderStatus.isPending}>
-              Cancelar Pedido
-            </Button>
-          )}
-          {statusTransitions[orderDetails.order_status].filter((s) => s !== 'canceled').map((newStatus) => (
-            <Button key={newStatus} colorScheme="teal" onClick={() => handleStatusUpdate(newStatus)} isPending={updateOrderStatus.isPending}>
-              {orderStatusMapping[newStatus]}
-            </Button>
-          ))}
-          <Button colorScheme="blue" onClick={() => navigate(-1)}>
-            Voltar
-          </Button>
-        </Flex>
-      </Box>
+      <Flex mt={8} justifyContent="center">
+        <Button colorScheme="blue" onClick={() => navigate(-1)}>
+          Voltar
+        </Button>
+      </Flex>
     </Box>
   );
 };

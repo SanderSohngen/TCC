@@ -6,6 +6,7 @@ import HealthHistoryRoutes from './HealthHistoryRoutes';
 import PurchaseOptionsRoutes from './PurchaseOptionsRoutes';
 import PaymentsRoutes from './PaymentsRoutes';
 import MessagesRoutes from './MessagesRoutes';
+import OrderRoutes from './OrdersRoutes';
 
 const PatientRoutes = () => (
   <Route path="paciente">
@@ -15,7 +16,7 @@ const PatientRoutes = () => (
     <Route path="meus-atendimentos/*" element={<MyAppointmentRoutes />} />
     <Route path="pagamentos/*" element={<PaymentsRoutes />} />
     <Route path="opcoes-de-compras/*" element={<PurchaseOptionsRoutes />} />
-    // falta minhas compras
+    <Route path="minhas-compras/*" element={<OrderRoutes />} />
     <Route path="agendar-atendimento/*" element={<ScheduleAppointmentRoutes />} />
   </Route>
 );

@@ -21,14 +21,37 @@ const TreatmentPlansDetails = () => {
   }
 
   return (
-    <Box maxW="600px" mx="auto" mt={8} p={6} borderWidth={1} borderRadius="lg" boxShadow="lg" bg="white">
+    <Box
+      maxW="600px"
+      mx="auto"
+      mt={8}
+      p={6}
+      borderWidth={1}
+      borderRadius="lg"
+      boxShadow="lg"
+      bg="white"
+    >
       <Heading size="lg" mb={6} textAlign="center" color="customPalette.900">
         Detalhes do Plano
       </Heading>
       <Plan planData={plan} />
-      <Button mt={4} w="100%" colorScheme="teal" onClick={() => navigate(-1)}>
-        Voltar
-      </Button>
+      <Box mt={4} display="flex" justifyContent="space-between">
+        <Button w="48%" colorScheme="gray" onClick={() => navigate(-1)}>
+          Voltar
+        </Button>
+        <Button
+          w="48%"
+          onClick={() =>
+            navigate(`/paciente/opcoes-de-compras/${plan.plan_id}`, {
+              state: { items: plan.items },
+            })
+          }
+          colorScheme="teal"
+          isDisabled={!plan.items || plan.items.length === 0}
+        >
+          Ver Opções de Compra
+        </Button>
+      </Box>
     </Box>
   );
 };

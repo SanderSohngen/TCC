@@ -62,6 +62,7 @@ def get_user_data(conn, cursor, user_id, user_type):
             'table': 'patients',
             'join_column': 'patient_id',
             'fields': [
+                'p.address_id',
                 'p.birthday', 'p.weight', 'p.height', 'p.gender', 'p.food_restrictions',
                 'a.street', 'a.house_number', 'a.complement', 'a.neighborhood',
                 'a.city', 'a.state', 'a.zip_code', 'a.country'

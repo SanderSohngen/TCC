@@ -262,6 +262,7 @@ const CreateTreatmentPlan = () => {
 			description: planInfo.description,
 			items: planInfo.products.map((product) => ({
 				product_id: product.id,
+        product_name: product.name,
 				quantity: product.quantity,
 				instructions: product.instructions || '',
 			})),

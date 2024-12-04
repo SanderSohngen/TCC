@@ -10,12 +10,12 @@ import {
   Th,
   Td,
   Button,
+  Text,
   Flex,
   Select,
   Input,
-  Text,
 } from '@chakra-ui/react';
-import { useFetchOrders } from '../../../hooks/useOrders'
+import { useFetchOrders } from '../../../hooks/useOrders';
 import { useAuth } from '../../../context/AuthContext';
 import Loading from '../../../components/Loading/Loading';
 import { DateTime } from 'luxon';
@@ -41,7 +41,7 @@ const Orders = () => {
   };
 
   const filteredOrders = orders.filter((order) => {
-    const matchesSearch = order.order_id.includes(search) || order.patient_name.toLowerCase().includes(search.toLowerCase());
+    const matchesSearch = order.order_id.includes(search);
     const matchesStatus = statusFilter ? order.order_status === statusFilter : true;
     return matchesSearch && matchesStatus;
   });
@@ -49,12 +49,12 @@ const Orders = () => {
   return (
     <Box maxW="container.lg" mx="auto" mt={8} p={6}>
       <Heading size="lg" mb={6} color="customPalette.900" textAlign="center">
-        Pedidos Recebidos
+        Minhas Compras
       </Heading>
 
       <Flex mb={4} justifyContent="space-between" flexWrap="wrap">
         <Input
-          placeholder="Buscar por ID ou Cliente"
+          placeholder="Buscar por ID do Pedido"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           maxW="200px"
@@ -85,7 +85,6 @@ const Orders = () => {
               <Th>Data</Th>
               <Th>Total</Th>
               <Th>Status</Th>
-              <Th>Cliente</Th>
               <Th>Ações</Th>
             </Tr>
           </Thead>
@@ -96,12 +95,11 @@ const Orders = () => {
                 <Td>{parseDate(order.order_date)}</Td>
                 <Td>R$ {order.total_amount}</Td>
                 <Td>{orderStatusMapping[order.order_status]}</Td>
-                <Td>{order.patient_name}</Td>
                 <Td>
                   <Button
                     size="sm"
                     onClick={() =>
-                      navigate(`/empresa/pedidos/${order.order_id}/detalhes`)
+                      navigate(`/paciente/minhas-compras/${order.order_id}`)
                     }
                     colorScheme="teal"
                   >
