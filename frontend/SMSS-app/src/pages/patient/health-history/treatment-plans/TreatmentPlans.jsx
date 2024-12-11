@@ -21,7 +21,7 @@ import { DateTime } from 'luxon';
 const PatientTreatmentPlans = () => {
   const { tokens } = useAuth();
   const { data: plans = [], isPending } = useFetchMyPlans(tokens?.idToken);
-  const [order, setOrder] = useState('asc');
+  const [order, setOrder] = useState('desc');
   const [planTypeFilter, setPlanTypeFilter] = useState('');
   const navigate = useNavigate();
 

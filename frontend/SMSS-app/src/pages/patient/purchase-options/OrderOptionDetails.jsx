@@ -27,6 +27,9 @@ import {
   ModalCloseButton,
   Select,
   NumberInput,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
   NumberInputField,
   useDisclosure,
   useToast,
@@ -135,6 +138,12 @@ const OrderOptionDetails = () => {
     );
   };
 
+  const calculateTotalPrice = () => {
+    return selectedItems.reduce((total, item) => {
+      return total + item.price * item.quantity;
+    }, 0);
+  };
+
   return (
     <Box
       maxW="600px"
@@ -175,13 +184,19 @@ const OrderOptionDetails = () => {
             <Tr key={item.item_option_id}>
               <Td>{item.product_name}</Td>
               <Td>
-                <NumberInput
-                  value={item.quantity}
-                  min={1}
-                  onChange={(value) => handleQuantityChange(index, value)}
-                >
-                  <NumberInputField />
-                </NumberInput>
+              <NumberInput
+                value={item.quantity}
+                min={0}
+                onChange={(value) => handleQuantityChange(index, value)}
+                size="sm"
+                maxW="100px"
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
               </Td>
               <Td>R$ {item.price}</Td>
             </Tr>
@@ -201,22 +216,18 @@ const OrderOptionDetails = () => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Confirmar Compra</ModalHeader>
+          <ModalHeader color="customPalette.900">Confirmar Compra</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {selectedItems.map((item, index) => (
-              <Box key={item.item_option_id} mb={4}>
-                <Text>{item.product_name}</Text>
-                <NumberInput
-                  value={item.quantity}
-                  min={1}
-                  onChange={(value) => handleQuantityChange(index, value)}
-                >
-                  <NumberInputField />
-                </NumberInput>
-              </Box>
-            ))}
-            <Box mt={4}>
+            <Box textAlign="center" mb={6}>
+              <Text fontSize="lg" fontWeight="bold">
+                Preço Total
+              </Text>
+              <Text fontSize="2xl">
+                R$ {calculateTotalPrice().toFixed(2)}
+              </Text>
+            </Box>
+            <Box>
               <Text>Método de Pagamento:</Text>
               <Select
                 value={paymentMethod}
@@ -228,7 +239,6 @@ const OrderOptionDetails = () => {
               </Select>
             </Box>
           </ModalBody>
-
           <ModalFooter>
             <Button colorScheme="gray" mr={3} onClick={onClose}>
               Cancelar

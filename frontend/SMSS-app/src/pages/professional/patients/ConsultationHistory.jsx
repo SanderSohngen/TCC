@@ -45,6 +45,12 @@ export default function ConsultationHistory() {
     return dateObj.toFormat('dd/MM/yy HH:mm');
   };
 
+  const statusMapping = {
+    completed: 'Concluída',
+    scheduled: 'Agendada',
+    canceled: 'Cancelada',
+  };
+
   return (
     <Box maxW="container.lg" mx="auto" mt={8} p={6} textAlign="center">
       <Heading size="lg" mb={6} color="customPalette.900">
@@ -94,7 +100,7 @@ export default function ConsultationHistory() {
             {filteredAppointments.map((appointment) => (
               <Tr key={appointment.appointment_id}>
                 <Td>{parseDateTime(appointment.slot_datetime)}</Td>
-                <Td>{appointment.status || 'Status não disponível'}</Td>
+                <Td>{statusMapping[appointment.status] || 'Status não disponível'}</Td>
                 <Td>
                   <Button
                     size="xs"

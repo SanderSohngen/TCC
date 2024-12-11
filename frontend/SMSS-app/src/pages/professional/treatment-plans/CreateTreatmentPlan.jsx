@@ -344,7 +344,7 @@ const CreateTreatmentPlan = () => {
                   filteredPatients.map((patient) => (
                     <Box
                       key={patient.id}
-                      p={2}
+                      p={4}
                       _hover={{ bg: 'gray.200', cursor: 'pointer' }}
                       onClick={() => {
                         setPlanInfo({ ...planInfo, patientId: patient.id });
@@ -392,7 +392,7 @@ const CreateTreatmentPlan = () => {
                   filteredProducts.map((product) => (
                     <Box
                       key={product.id}
-                      p={2}
+                      p={4}
                       _hover={{ bg: 'gray.200', cursor: 'pointer' }}
                       onClick={() => {
                         setSelectedProduct(product.id);
