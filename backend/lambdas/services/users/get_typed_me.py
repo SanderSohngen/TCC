@@ -81,7 +81,7 @@ def get_user_data(conn, cursor, user_id, user_type):
             'table': 'companies',
             'join_column': 'company_id',
             'fields': [
-                'c.cnpj', 'c.company_type', 'c.is_verified', 'c.products_endpoint', 'c.orders_endpoint',
+                'c.cnpj', 'c.company_type', 'c.is_verified', 'c.products_endpoint', 'c.orders_endpoint', 'c.api_key',
                 'a.street', 'a.house_number', 'a.complement', 'a.neighborhood',
                 'a.city', 'a.state', 'a.zip_code', 'a.country'
             ],
