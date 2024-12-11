@@ -31,3 +31,9 @@ export const useFetchTypedUserData = (idToken) => {
     enabled: !!idToken,
   })
 };
+
+export const useUpdateMe = () => {
+  return useMutation({
+    mutationFn: accountService.updateMe,
+  });
+}

@@ -2,14 +2,13 @@ import { Box, Heading, Text, Button, Divider } from '@chakra-ui/react';
 import { useAuth } from '../../../context/AuthContext';
 import { useFetchTypedUserData } from '../../../hooks/useAccount';
 import Loading from '../../../components/Loading/Loading';
-
+import { useNavigate } from 'react-router-dom';
 
 export default function CompanyProfile() {
   const { tokens } = useAuth();
-  const fetchTypedUserData = useFetchTypedUserData(
-    tokens?.idToken
-  );
-  
+  const fetchTypedUserData = useFetchTypedUserData(tokens?.idToken);
+  const navigate = useNavigate();
+
   if (fetchTypedUserData.isPending || !fetchTypedUserData.data) return <Loading />;
 
   const data = fetchTypedUserData.data;
@@ -41,7 +40,7 @@ export default function CompanyProfile() {
     sports_store: 'Loja de Esportes',
     gym: 'Academia',
   };
-  
+
   return (
     <Box
       maxW="container.md"
@@ -90,6 +89,15 @@ export default function CompanyProfile() {
           <Text color="gray.700">País: {address.country}</Text>
         </Box>
       )}
+
+      <Box mt={6} display="flex" justifyContent="center">
+        <Button
+          colorScheme="teal"
+          onClick={() => navigate('editar')}
+        >
+          Atualizar
+        </Button>
+      </Box>
     </Box>
-  ); 
+  );
 }

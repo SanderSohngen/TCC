@@ -161,3 +161,20 @@ export const fetchTypedUserData = async (idToken) => {
     throw new Error('Erro ao fazer requisição para o servidor.');
   }
 };
+
+export const updateMe = async ({ updateData, idToken }) => {
+  try {
+    const response = await axios.put(API_ME_URL, updateData,
+      {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao atualizar consulta:', error);
+    throw error;
+  }
+}
