@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-import HealthHistory from '../../pages/patient/health-history/HealthHistory';
 import Assessments from '../../pages/patient/health-history/assessments/Assessments';
 import AssessmentDetails from '../../pages/patient/health-history/assessments/AssessmentDetails';
 import TreatmentPlans from '../../pages/patient/health-history/treatment-plans/TreatmentPlans';
@@ -9,7 +8,7 @@ import ViewDocument from '../../pages/patient/health-history/medical-documents/V
 
 const HealthHistoryRoutes = () => (
   <Routes >
-    <Route index element={<HealthHistory />} />
+    <Route index element/>
     <Route path="avaliacoes">
       <Route index element={<Assessments />} />
       <Route path=":assessmentId/detalhes" element={<AssessmentDetails />} />

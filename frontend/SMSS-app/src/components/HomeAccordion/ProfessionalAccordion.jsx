@@ -27,30 +27,12 @@ const ProfessionalAccordion = () => (
 
     <AccordionItem>
       <AccordionButton>
-        <Box flex="1" textAlign="left">Planos de Tratamento</Box>
+        <Box flex="1" textAlign="left">Mensagens</Box>
         <AccordionIcon />
       </AccordionButton>
       <AccordionPanel pb={4}>
         <Text>
-          Ferramentas para criar, visualizar e gerenciar planos de tratamento para pacientes.
-        </Text>
-        <Text mt={2}>
-          Crie novos planos, edite informações detalhadas ou veja os itens relacionados a cada plano.
-        </Text>
-      </AccordionPanel>
-    </AccordionItem>
-
-    <AccordionItem>
-      <AccordionButton>
-        <Box flex="1" textAlign="left">Avaliações</Box>
-        <AccordionIcon />
-      </AccordionButton>
-      <AccordionPanel pb={4}>
-        <Text>
-          Criação e gerenciamento de avaliações detalhadas e simplificadas para seus pacientes.
-        </Text>
-        <Text mt={2}>
-          Elabore novas avaliações ou revise informações existentes para acompanhar a evolução dos pacientes.
+        Realize suas consultas do dia.
         </Text>
       </AccordionPanel>
     </AccordionItem>
@@ -72,15 +54,12 @@ const ProfessionalAccordion = () => (
 
     <AccordionItem>
       <AccordionButton>
-        <Box flex="1" textAlign="left">Mensagens</Box>
+        <Box flex="1" textAlign="left">Avaliações</Box>
         <AccordionIcon />
       </AccordionButton>
       <AccordionPanel pb={4}>
         <Text>
-          Chat integrado para comunicação direta com os pacientes.
-        </Text>
-        <Text mt={2}>
-          Receba notificações de novas mensagens e converse com seus pacientes sobre atendimentos específicos.
+          Visualização de avaliações detalhadas e simplificadas para seus pacientes.
         </Text>
       </AccordionPanel>
     </AccordionItem>
@@ -96,6 +75,21 @@ const ProfessionalAccordion = () => (
         </Text>
         <Text mt={2}>
           Revise documentos já emitidos para garantir um acompanhamento detalhado.
+        </Text>
+      </AccordionPanel>
+    </AccordionItem>
+
+    <AccordionItem>
+      <AccordionButton>
+        <Box flex="1" textAlign="left">Planos de Tratamento</Box>
+        <AccordionIcon />
+      </AccordionButton>
+      <AccordionPanel pb={4}>
+        <Text>
+          Ferramentas para criar, visualizar e gerenciar planos de tratamento para pacientes.
+        </Text>
+        <Text mt={2}>
+          Crie novos planos, edite informações detalhadas ou veja os itens relacionados a cada plano.
         </Text>
       </AccordionPanel>
     </AccordionItem>

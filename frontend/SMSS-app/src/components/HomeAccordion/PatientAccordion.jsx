@@ -16,7 +16,17 @@ const PatientAccordion = () => (
         <AccordionIcon />
       </AccordionButton>
       <AccordionPanel pb={4}>
-        <Text>Resumo dos próximos compromissos e acesso rápido aos planos de tratamento ativos.</Text>
+        <Text>Visualize seus dados, atualizando o que for necessário</Text>
+      </AccordionPanel>
+    </AccordionItem>
+
+    <AccordionItem>
+      <AccordionButton>
+        <Box flex="1" textAlign="left">Mensagens</Box>
+        <AccordionIcon />
+      </AccordionButton>
+      <AccordionPanel pb={4}>
+        <Text>Realize suas consultas do dia.</Text>
       </AccordionPanel>
     </AccordionItem>
 
@@ -32,11 +42,11 @@ const PatientAccordion = () => (
 
     <AccordionItem>
       <AccordionButton>
-        <Box flex="1" textAlign="left">Compras</Box>
+        <Box flex="1" textAlign="left">Minhas Compras</Box>
         <AccordionIcon />
       </AccordionButton>
       <AccordionPanel pb={4}>
-        <Text>Visualize opções de compras relacionadas aos planos de tratamento ou acompanhe suas compras realizadas.</Text>
+        <Text>Acompanhe suas compras realizadas.</Text>
       </AccordionPanel>
     </AccordionItem>
 
@@ -47,26 +57,6 @@ const PatientAccordion = () => (
       </AccordionButton>
       <AccordionPanel pb={4}>
         <Text>Acesse informações sobre suas avaliações, planos de tratamento e documentos médicos armazenados.</Text>
-      </AccordionPanel>
-    </AccordionItem>
-
-    <AccordionItem>
-      <AccordionButton>
-        <Box flex="1" textAlign="left">Mensagens</Box>
-        <AccordionIcon />
-      </AccordionButton>
-      <AccordionPanel pb={4}>
-        <Text>Converse com profissionais de saúde através do chat e veja notificações relacioandas à plataforma.</Text>
-      </AccordionPanel>
-    </AccordionItem>
-
-    <AccordionItem>
-      <AccordionButton>
-        <Box flex="1" textAlign="left">Pagamentos</Box>
-        <AccordionIcon />
-      </AccordionButton>
-      <AccordionPanel pb={4}>
-        <Text>Gerencie pagamentos pendentes ou acesse o histórico financeiro de suas transações realizadas.</Text>
       </AccordionPanel>
     </AccordionItem>
   </Accordion>

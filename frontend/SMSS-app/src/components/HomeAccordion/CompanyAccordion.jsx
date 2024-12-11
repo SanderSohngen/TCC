@@ -27,21 +27,6 @@ const CompanyAccordion = () => (
 
     <AccordionItem>
       <AccordionButton>
-        <Box flex="1" textAlign="left">Integração API</Box>
-        <AccordionIcon />
-      </AccordionButton>
-      <AccordionPanel pb={4}>
-        <Text>
-          Informações e gerenciamento da integração via API com a plataforma.
-        </Text>
-        <Text mt={2}>
-          Gerencie chaves de API, atualize endpoints de produtos e pedidos para facilitar a automação.
-        </Text>
-      </AccordionPanel>
-    </AccordionItem>
-
-    <AccordionItem>
-      <AccordionButton>
         <Box flex="1" textAlign="left">Perfil da Empresa</Box>
         <AccordionIcon />
       </AccordionButton>
@@ -50,7 +35,7 @@ const CompanyAccordion = () => (
           Atualização de dados da empresa.
         </Text>
         <Text mt={2}>
-          Edite informações da empresa, como endereço.
+          Edite informações da empresa, como endpoints e API key.
         </Text>
       </AccordionPanel>
     </AccordionItem>

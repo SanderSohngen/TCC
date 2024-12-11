@@ -23,6 +23,7 @@ const LoggedTabs = () => {
   const navConfig = {
     patient: [
       { label: 'Início', path: '/paciente/inicio' },
+      { label: 'Mensagens', path: '/paciente/mensagens' },
       {
         label: 'Atendimentos',
         submenu: [
@@ -31,11 +32,7 @@ const LoggedTabs = () => {
         ],
       },
       {
-        label: 'Compras',
-        submenu: [
-          { label: 'Opções de Compras', path: '/paciente/opcoes-de-compras' },
-          { label: 'Minhas Compras', path: '/paciente/minhas-compras' },
-        ],
+        label: 'Minhas Compras', path: '/paciente/minhas-compras'
       },
       {
         label: 'Histórico de Saúde',
@@ -45,8 +42,6 @@ const LoggedTabs = () => {
           { label: 'Documentos Médicos', path: '/paciente/historico-de-saude/documentos' },
         ],
       },
-      { label: 'Mensagens', path: '/paciente/mensagens' },
-      { label: 'Pagamentos', path: '/paciente/pagamentos/historico' },
     ],
     professional: [
       { label: 'Minha Agenda', path: '/profissional/minha-agenda' },
@@ -64,14 +59,6 @@ const LoggedTabs = () => {
     ],
     company: [
       { label: 'Pedidos', path: '/empresa/pedidos' },
-      {
-        label: 'Integração API',
-        submenu: [
-          { label: 'Listar Integrações', path: '/empresa/integracao-api' },
-          { label: 'Gerenciar Chaves de API', path: '/empresa/integracao-api/chaves' },
-          { label: 'Configurar Endpoints', path: '/empresa/integracao-api/endpoints' },
-        ],
-      },
       { label: 'Perfil da Empresa', path: '/empresa/perfil' },
     ],
   };
