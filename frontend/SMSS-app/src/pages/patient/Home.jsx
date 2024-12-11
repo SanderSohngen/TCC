@@ -22,6 +22,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useFetchTypedUserData } from '../../hooks/useAccount';
 import Loading from '../../components/Loading/Loading';
 import { useUpdateMe } from '../../hooks/useAccount';
+import { DateTime } from 'luxon';
 
 export default function Home() {
   const { tokens } = useAuth();
@@ -112,6 +113,14 @@ export default function Home() {
     country,
   };
 
+  const parseDate = (date) => DateTime.fromISO(date).toFormat('dd/MM/yyyy');
+
+  const formatWeight = (weight) => {
+    if (!weight) return 'Não disponível';
+    const parsedWeight = parseFloat(weight).toFixed(1);
+    return parsedWeight.replace('.', ',') + ' kg';
+  };
+
   return (
     <Box maxW="container.md" mx="auto" mt={8} p={6} borderWidth="1px" borderRadius="lg" shadow="md">
       <Heading size="lg" mb={4} color="customPalette.900" textAlign="center">
@@ -120,10 +129,10 @@ export default function Home() {
       <Box mb={4}>
         <Text color="gray.700"><strong>Nome:</strong> {name}</Text>
         <Text color="gray.700"><strong>Email:</strong> {email}</Text>
-        <Text color="gray.700"><strong>Data de Nascimento:</strong> {birthday}</Text>
+        <Text color="gray.700"><strong>Data de Nascimento:</strong> {parseDate(birthday)}</Text>
         <Text color="gray.700"><strong>Gênero:</strong> {genderMapping[gender] || gender}</Text>
         <Text color="gray.700"><strong>Altura:</strong> {Math.floor(height)} cm</Text>
-        <Text color="gray.700"><strong>Peso:</strong> {weight} kg</Text>
+        <Text color="gray.700"><strong>Peso:</strong> {formatWeight(weight)}</Text>
         <Text color="gray.700"><strong>Restrições Alimentares:</strong> {food_restrictions || 'Nenhuma'}</Text>
       </Box>
 
@@ -132,7 +141,7 @@ export default function Home() {
       {address && (
         <Box mb={4}>
           <Text color="gray.700"><strong>Endereço:</strong></Text>
-          <Text color="gray.700">Rua: {address.street}, Número: {address.house_number}</Text>
+          <Text color="gray.700">{address.street}, Número: {address.house_number}</Text>
           <Text color="gray.700">Bairro: {address.neighborhood}, Cidade: {address.city}</Text>
           <Text color="gray.700">Estado: {address.state}, CEP: {address.zip_code}</Text>
           <Text color="gray.700">País: {address.country}</Text>
